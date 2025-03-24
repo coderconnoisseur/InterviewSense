@@ -1,7 +1,7 @@
 # TranscriptionWindow.py
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
-import faster_whisper
+from faster_whisper import WhisperModel
 import torch
 import threading
 
@@ -24,14 +24,14 @@ class TranscriptionWindow:
 
         # Initialize Whisper model with a smaller size and memory efficient settings
         try:
-            self.model = faster_whisper.WhisperModel(
+            self.model = WhisperModel(
                 "medium",  # Using medium model instead of large-v2
                 device="cuda" if torch.cuda.is_available() else "cpu",
                 compute_type="float16"  # Use half precision to reduce memory usage
             )
         except Exception as e:
             # Fallback to CPU if GPU initialization fails
-            self.model = faster_whisper.WhisperModel(
+            self.model = WhisperModel(
                 "medium",
                 device="cpu",
                 compute_type="int8"  # Use int8 quantization for CPU
